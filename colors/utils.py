@@ -10,3 +10,16 @@ def convert_hex_to_rgb(hex: str) -> tuple((int, int, int)):
 def convert_input_to_css_name(input: str) -> str:
     """Convert the spoken input of a color name to the CSS official name."""
     return input.lower().replace(' ', '')
+
+def is_hex_code_invalid(hex_code: str) -> bool:
+    """Validate whether the input string is a valid hex color code."""
+    # TODO expand to validate 3 char codes.
+    hex_code = hex_code.lstrip('#')
+    try:
+        assert len(hex_code) == 6
+        int(hex_code, 16)
+    except (AssertionError, ValueError):
+        return True
+    else:
+        return False
+    
