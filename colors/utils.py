@@ -7,9 +7,26 @@ def convert_hex_to_rgb(hex: str) -> tuple((int, int, int)):
     rgb_values = tuple(int(hex_cleaned[i:i+2], 16) for i in (0, 2, 4))
     return rgb_values
 
+
 def convert_input_to_css_name(input: str) -> str:
     """Convert the spoken input of a color name to the CSS official name."""
     return input.lower().replace(' ', '')
+
+
+def get_contrasting_black_or_white(hex_code) -> str:
+    """Get a contrasting black or white color for text display.
+
+    Args:
+        hex_code of base color
+
+    Returns:
+        black or white as a hex_code
+    """
+    rgb_values = convert_hex_to_rgb(hex_code)
+    red, green, blue = rgb_values
+    yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000
+    return '#000000' if yiq > 125 else '#ffffff'
+
 
 def is_hex_code_invalid(hex_code: str) -> bool:
     """Validate whether the input string is a valid hex color code."""
@@ -22,4 +39,3 @@ def is_hex_code_invalid(hex_code: str) -> bool:
         return True
     else:
         return False
-    

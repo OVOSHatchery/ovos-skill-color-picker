@@ -1,8 +1,10 @@
+from typing import List
 from mycroft import MycroftSkill, intent_handler
 
 from .colors.utils import (
     convert_input_to_css_name,
     convert_hex_to_rgb,
+    get_contrasting_black_or_white,
     is_hex_code_invalid
 )
 
@@ -30,16 +32,15 @@ class ColorPicker(MycroftSkill):
         if requested_color is None:
             self.speak_dialog('color-not-found')
             return
-        # css_color = convert_input_to_css_name(requested_color)
         hex_code = self.colors_by_name.get(requested_color)
         if hex_code is None:
             self.speak_dialog('color-not-found')
             return
 
-        speakable_hex_code = '. '.join(hex_code.lstrip('#').upper())
         rgb_values = convert_hex_to_rgb(hex_code)
+        self.display_single_color(requested_color, hex_code, rgb_values)
 
-        self.gui.show_text(requested_color.title())
+        speakable_hex_code = '. '.join(hex_code.lstrip('#').upper())
         self.speak_dialog('report-color-by-name', data={
             'color_name': requested_color,
             'hex_code': speakable_hex_code,
@@ -82,6 +83,16 @@ class ColorPicker(MycroftSkill):
                 'green_value': rgb_values[1],
                 'blue_value': rgb_values[2]
             })
+
+    def display_single_color(self, name: str, hex_code: str, rgb_values: List[int]):
+        """Display details of a single color"""
+        text_color = get_contrasting_black_or_white(hex_code)
+        self.gui.clear()
+        self.gui['colorName'] = name.title()
+        self.gui['colorHex'] = hex_code.upper()
+        self.gui['colorRGB'] = f'RGB: {str(rgb_values)}'
+        self.gui['textColor'] = text_color
+        self.gui.show_page('single-color.qml')
 
 
 def create_skill():
