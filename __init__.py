@@ -54,7 +54,8 @@ class ColorPicker(MycroftSkill):
 
         Example: 'what color has a hex code of bada55'
         """
-        requested_hex_code = message.data.get('hex_code')
+        requested_hex_code = message.data.get('hex_code').replace(' ', '')
+        self.log.info("Requested color: %s", requested_hex_code)
         hex_is_invalid = is_hex_code_invalid(requested_hex_code)
         if hex_is_invalid:
             self.speak_dialog('color-not-found')
