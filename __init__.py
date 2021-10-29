@@ -26,22 +26,23 @@ class ColorPicker(MycroftSkill):
         Example: 'Show me the color burly wood'
         """
         requested_color = message.data.get('color')
-        self.log.info(requested_color)
+        self.log.info("Requested color: %s", requested_color)
         if requested_color is None:
             self.speak_dialog('color-not-found')
             return
-        css_color = convert_input_to_css_name(requested_color)
-        self.log.info("Requested color: %s", css_color)
-        hex_code = self.colors_by_name.get(css_color)
+        # css_color = convert_input_to_css_name(requested_color)
+        hex_code = self.colors_by_name.get(requested_color)
         if hex_code is None:
             self.speak_dialog('color-not-found')
             return
+
+        speakable_hex_code = '. '.join(hex_code.lstrip('#').upper())
         rgb_values = convert_hex_to_rgb(hex_code)
 
         self.gui.show_text(requested_color.title())
         self.speak_dialog('report-color-by-name', data={
             'color_name': requested_color,
-            'hex_code': hex_code.lstrip('#'),
+            'hex_code': speakable_hex_code,
             'red_value': rgb_values[0],
             'green_value': rgb_values[1],
             'blue_value': rgb_values[2]
