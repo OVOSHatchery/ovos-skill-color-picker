@@ -1,4 +1,4 @@
-Feature: Change the colour
+Feature: Change the color
 
   @xfail 
   Scenario Outline: Change color by specified amount

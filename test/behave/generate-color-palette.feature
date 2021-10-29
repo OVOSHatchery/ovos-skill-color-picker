@@ -1,4 +1,4 @@
-Feature: Give me 3 colours that work with <colour>
+Feature: Give me 3 colors that work with <color>
 
   @xfail 
   Scenario Outline: Increase color channel
