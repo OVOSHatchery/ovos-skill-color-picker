@@ -27,6 +27,16 @@ def get_contrasting_black_or_white(hex_code) -> str:
     yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000
     return '#000000' if yiq > 125 else '#ffffff'
 
+def convert_rgb_to_hex(rgb) -> tuple:
+    """Take an RGB value and convert it to hex code. Return None if the RGB code is invalid"""
+    
+    #Validate user Input is not negative or greater than 255
+    for value in rgb:
+        if not 256 > value >= 0:
+            # Return nothing if any of the RGB values fail validation
+            return None
+    return '%02x%02x%02x' % rgb
+
 
 def is_hex_code_invalid(hex_code: str) -> bool:
     """Validate whether the input string is a valid hex color code."""

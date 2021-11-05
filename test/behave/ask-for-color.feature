@@ -32,7 +32,26 @@ Feature: Get information about a color
       | what color has a hex code of ff0001 | 255 | 0 | 1 |
       | what color has a hex code of fadfad | 250 | 223 | 173 |
 
-  # Scenario Outline: Ask for color by RGB values with known name
-  
-  # Scenario Outline: Ask for color by RGB values with unknown name
+  @wip
+  Scenario Outline: Ask for color by RGB values with known name
+    Given an english speaking user
+      When the user says "<request by RGB>"
+      Then mycroft reply should contain "<hex-value>"
+
+    Examples: requesting a color by RGB value
+      | request by RGB | color name | hex-value |
+      | what color has an RGB value of 255 0 0 | red | F. F. 0. 0. 0. 0 |
+      | what color has an RGB value of 233 150 122 | dark salmon | E. 9. 9. 6. 7. A |
+
+  @wip
+  Scenario Outline: Ask for color by RGB values with unknown name
+    Given an english speaking user
+      When the user says "<request by RGB>"
+      Then mycroft reply should contain "<hex-value>"
+
+    Examples: requesting a color by RGB value
+      | request by RGB | hex-value |
+      | what color has an RGB value of 255 0 1 | F. F. 0. 0. 0. 1 |
+      | what color has an RGB value of 250 233 173 | F. A. D. F. A. D |
+
 

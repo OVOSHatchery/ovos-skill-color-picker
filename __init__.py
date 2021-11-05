@@ -84,6 +84,36 @@ class ColorPicker(MycroftSkill):
                 'blue_value': rgb_values[2]
             })
 
+    @intent_handler('request-color-by-rgb.intent')
+    def handle_request_color_by_rgb(self, message):
+        """
+        Handle RGB color requests
+
+        Example: what color has the RGB value of 172 172 172
+        """
+
+        requested_rgb = message.data.get('rgb')
+
+        hex_code = hex_conversion()
+
+        # Returns None if a match is not found
+        css_color_name = self.colors_by_hex.get(hex_code)
+
+        if css_color_name is None:
+            self.speak_dialog('report-color-by-rgb-name-not-known', data={
+                'hex_code': hex_code.lstrip('#')
+            })
+        else:
+            self.speak_dialog('report-color-by-rgb-name-known', data={
+                'color_name': css_color_name,
+                'hex_code': hex_code.lstrip('#')
+            })
+    
+
+
+
+
+
     def display_single_color(self, name: str, hex_code: str, rgb_values: List[int]):
         """Display details of a single color"""
         text_color = get_contrasting_black_or_white(hex_code)
