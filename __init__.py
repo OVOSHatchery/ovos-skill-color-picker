@@ -1,11 +1,13 @@
 from typing import List
 from mycroft import MycroftSkill, intent_handler
 
+
 from .colors.utils import (
     convert_input_to_css_name,
     convert_hex_to_rgb,
     get_contrasting_black_or_white,
-    is_hex_code_invalid
+    is_hex_code_invalid,
+    convert_rgb_to_hex
 )
 
 class ColorPicker(MycroftSkill):
@@ -91,22 +93,23 @@ class ColorPicker(MycroftSkill):
 
         Example: what color has the RGB value of 172 172 172
         """
+        rgb_string  = message.data.get('rgb').split()
 
-        requested_rgb = message.data.get('rgb')
+        requested_rgb = (int(rgb_string[0]), int(rgb_string[1]), int(rgb_string[2]))
 
-        hex_code = hex_conversion()
-
+        hex_code = convert_rgb_to_hex(requested_rgb)
+        spoken_hex_code = ". ".join(list(hex_code)).upper()
         # Returns None if a match is not found
         css_color_name = self.colors_by_hex.get(hex_code)
 
         if css_color_name is None:
             self.speak_dialog('report-color-by-rgb-name-not-known', data={
-                'hex_code': hex_code.lstrip('#')
+                'hex_code': spoken_hex_code
             })
         else:
             self.speak_dialog('report-color-by-rgb-name-known', data={
                 'color_name': css_color_name,
-                'hex_code': hex_code.lstrip('#')
+                'hex_code': spoken_hex_code
             })
     
 

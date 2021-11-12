@@ -52,6 +52,6 @@ Feature: Get information about a color
     Examples: requesting a color by RGB value
       | request by RGB | hex-value |
       | what color has an RGB value of 255 0 1 | F. F. 0. 0. 0. 1 |
-      | what color has an RGB value of 250 233 173 | F. A. D. F. A. D |
+      | what color has an RGB value of 250 223 173 | F. A. D. F. A. D |
 
 

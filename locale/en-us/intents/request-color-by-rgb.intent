@@ -1,3 +1,1 @@
-What is the hex value for {color}
-Show me (the (color|colour)| ){color}
-what does {color} look like
+what color has an RGB value of {rgb}
