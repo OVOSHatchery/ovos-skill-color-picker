@@ -16,6 +16,9 @@ def convert_input_to_css_name(input: str) -> str:
 def get_contrasting_black_or_white(hex_code) -> str:
     """Get a contrasting black or white color for text display.
 
+    This gets calculated based off the input color using the YIQ system.
+    https://en.wikipedia.org/wiki/YIQ
+
     Args:
         hex_code of base color
 
@@ -27,10 +30,17 @@ def get_contrasting_black_or_white(hex_code) -> str:
     yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000
     return '#000000' if yiq > 125 else '#ffffff'
 
-def convert_rgb_to_hex(rgb: tuple([int,int,int])) -> str:
-    """Take an RGB value and convert it to hex code. Return None if the RGB code is invalid"""
-    
-    #Validate user Input is not negative or greater than 255
+
+def convert_rgb_to_hex(rgb: tuple([int, int, int])) -> str:
+    """Take an RGB value and convert it to hex code.
+
+    Args:
+        rgb: a color represented as rgb values.
+
+    Returns:
+        Hex code of color or None if the RGB code is invalid.
+    """
+    # Validate user Input is not negative or greater than 255
     for value in rgb:
         if not 256 > value >= 0:
             # Return nothing if any of the RGB values fail validation
