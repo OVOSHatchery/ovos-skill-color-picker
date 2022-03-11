@@ -8,9 +8,9 @@ Feature: Get information about a color
     Examples: requesting a color
       | request a color | color name | hex-value | red-value | green-value | blue-value |
       | show me the color red | red | F. F. 0. 0. 0. 0 | 255 | 0 | 0 |
-      | what does yellow look like | yellow | F. F. F. F. 0. 0 | 255 | 255 | 0 |
-      | show me dark salmon | dark salmon | E. 9. 9. 6. 7. A | 233 | 150 | 122 |
-      | what does light goldenrod yellow look like | light goldenrod yellow | F. A. F. A. D. 2 | 250 | 250 | 210 |
+      | what does the color yellow look like | yellow | F. F. F. F. 0. 0 | 255 | 255 | 0 |
+      | show me the color dark salmon | dark salmon | E. 9. 9. 6. 7. A | 233 | 150 | 122 |
+      | what does the color light goldenrod yellow look like | light goldenrod yellow | F. A. F. A. D. 2 | 250 | 250 | 210 |
 
   Scenario Outline: Ask for color by hex value with known name
     Given an english speaking user

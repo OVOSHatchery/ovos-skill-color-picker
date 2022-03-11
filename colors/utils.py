@@ -12,6 +12,23 @@ def convert_input_to_css_name(input: str) -> str:
     return input.lower().replace(" ", "")
 
 
+def convert_rgb_to_hex(rgb: tuple([int, int, int])) -> str:
+    """Take an RGB value and convert it to hex code.
+
+    Args:
+        rgb: a color represented as rgb values.
+
+    Returns:
+        Hex code of color or None if the RGB code is invalid.
+    """
+    # Validate user Input is not negative or greater than 255
+    for value in rgb:
+        if not 256 > value >= 0:
+            # Return nothing if any of the RGB values fail validation
+            return None
+    return "%02x%02x%02x" % rgb
+
+
 def get_contrasting_black_or_white(hex_code) -> str:
     """Get a contrasting black or white color for text display.
 
@@ -30,24 +47,7 @@ def get_contrasting_black_or_white(hex_code) -> str:
     return "#000000" if yiq > 125 else "#ffffff"
 
 
-def convert_rgb_to_hex(rgb: tuple([int, int, int])) -> str:
-    """Take an RGB value and convert it to hex code.
-
-    Args:
-        rgb: a color represented as rgb values.
-
-    Returns:
-        Hex code of color or None if the RGB code is invalid.
-    """
-    # Validate user Input is not negative or greater than 255
-    for value in rgb:
-        if not 256 > value >= 0:
-            # Return nothing if any of the RGB values fail validation
-            return None
-    return "%02x%02x%02x" % rgb
-
-
-def is_hex_code_invalid(hex_code: str) -> bool:
+def is_hex_code_valid(hex_code: str) -> bool:
     """Validate whether the input string is a valid hex color code."""
     # TODO expand to validate 3 char codes.
     hex_code = hex_code.lstrip("#")
@@ -55,9 +55,9 @@ def is_hex_code_invalid(hex_code: str) -> bool:
         assert len(hex_code) == 6
         int(hex_code, 16)
     except (AssertionError, ValueError):
-        return True
-    else:
         return False
+    else:
+        return True
 
 
 def is_rgb_value_valid(rgb_values) -> bool:
@@ -67,8 +67,8 @@ def is_rgb_value_valid(rgb_values) -> bool:
     """
     if isinstance(rgb_values, str):
         rgb_values = rgb_values.split()
-        
-    if isinstance(rgb_values, list):
+
+    if isinstance(rgb_values, list) or isinstance(rgb_values, tuple):
         try:
             rgb_values = [int(value) for value in rgb_values]
         except ValueError:

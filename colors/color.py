@@ -2,13 +2,13 @@
 
 from collections import namedtuple
 from dataclasses import dataclass, field
-from typing import Any, List
+from typing import List, Union
 
 from .utils import (
     convert_hex_to_rgb,
     convert_rgb_to_hex,
     get_contrasting_black_or_white,
-    is_hex_code_invalid,
+    is_hex_code_valid,
     is_rgb_value_valid,
 )
 
@@ -16,15 +16,15 @@ from .utils import (
 RGB = namedtuple("RGB", ["red", "green", "blue"])
 
 
-@dataclass(frozen=True)
+@dataclass
 class Color:
     """Color is a dataclass to represent a color."""
 
     name: str
     hex_code: str
     rgb_values: RGB
-    speakable_hex_code: field(init=False)
-    contrasting_tone: field(init=False)  # For text color on GUI
+    speakable_hex_code: field(init=False) = None
+    contrasting_tone: field(init=False) = None  # For text color on GUI
 
     def __post_init__(self):
         """Populate default properties."""
@@ -42,11 +42,15 @@ class ColorFactory:
     # TODO should we generate colors_by_hex here instead of in Skill class?
     """
 
-    def __init__(self, colors_by_name, colors_by_hex) -> None:
+    def __init__(self, colors_by_name) -> None:
         self.colors_by_name = colors_by_name
-        self.colors_by_hex = colors_by_hex
+        self.colors_by_hex = dict()
+        # Generate colors_by_hex dict
+        for color_name in self.colors_by_name:
+            hex_code = self.colors_by_name[color_name]
+            self.colors_by_hex[hex_code] = color_name
 
-    def create(self, type: str, value: Any[str, List([int])]) -> Color:
+    def create(self, type: str, value: Union[str, List[int]]) -> Color:
         """Create a color from a supported value type.
 
         Type must be one of ['name', 'hex', 'rgb'].
@@ -66,6 +70,7 @@ class ColorFactory:
 
     def create_color_by_name(self, name: str) -> Color:
         """Create a Color object by CSS3 name."""
+        name = name.lower()
         hex_code = self.colors_by_name.get(name)
         if hex_code is None:
             raise ValueError(f"Invalid input for name: {name}")
@@ -73,29 +78,32 @@ class ColorFactory:
         return Color(
             name,
             hex_code,
-            rgb_values,
+            RGB(*rgb_values),
         )
 
     def create_color_by_hex(self, hex_code: str) -> Color:
         """Create a Color object by hex code."""
-        if is_hex_code_invalid(hex_code):
+        if not is_hex_code_valid(hex_code):
             raise ValueError(f"Invalid input for hex_code: {hex_code}")
-        name = self.colors_by_hex[hex_code]
+        # TODO ensure hex_code format is consistent. Do we want with or without #?
+        if hex_code[0] != "#":
+            hex_code = f"#{hex_code}"
+        name = self.colors_by_hex.get(hex_code)
         rgb_values = convert_hex_to_rgb(hex_code)
         return Color(
             name,
             hex_code,
-            rgb_values,
+            RGB(*rgb_values),
         )
 
-    def create_color_by_rgb(self, rgb_values: List[int, int, int]) -> Color:
+    def create_color_by_rgb(self, rgb_values: tuple((int, int, int))) -> Color:
         """Create a Color object by RGB values."""
         if not is_rgb_value_valid(rgb_values):
             raise ValueError(f"Invalid input for rgb_values: {rgb_values}")
         hex_code = convert_rgb_to_hex(rgb_values)
-        name = self.colors_by_hex[hex_code]
+        name = self.colors_by_hex.get(hex_code)
         return Color(
             name,
             hex_code,
-            rgb_values,
+            RGB(*rgb_values),
         )
