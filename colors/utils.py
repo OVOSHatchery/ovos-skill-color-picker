@@ -65,14 +65,19 @@ def is_rgb_value_valid(rgb_values) -> bool:
 
     Allows input of a string or a list of 3 integers.
     """
-    try:
-        if isinstance(rgb_values, str):
-            rgb_values = [int(value) for value in rgb_values.split()]
-    except ValueError:
-        # Cannot convert passed value to integers.
+    if isinstance(rgb_values, str):
+        rgb_values = rgb_values.split()
+        
+    if isinstance(rgb_values, list):
+        try:
+            rgb_values = [int(value) for value in rgb_values]
+        except ValueError:
+            # Cannot convert passed value to integers.
+            return False
+    else:
         return False
 
-    if len(rgb_values) != 3:
+    if not rgb_values or len(rgb_values) != 3:
         return False
 
     try:
