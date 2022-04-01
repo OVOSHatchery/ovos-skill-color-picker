@@ -43,12 +43,12 @@ class ColorFactory:
     """
 
     def __init__(self, colors_by_name) -> None:
-        self.colors_by_name = colors_by_name
-        self.colors_by_hex = dict()
+        self.name_to_hex_map = colors_by_name
+        self.hex_to_name_map = dict()
         # Generate colors_by_hex dict
-        for color_name in self.colors_by_name:
-            hex_code = self.colors_by_name[color_name]
-            self.colors_by_hex[hex_code] = color_name
+        for color_name in self.name_to_hex_map:
+            hex_code = self.name_to_hex_map[color_name]
+            self.hex_to_name_map[hex_code] = color_name
 
     def create(self, type: str, value: Union[str, List[int]]) -> Color:
         """Create a color from a supported value type.
@@ -71,7 +71,7 @@ class ColorFactory:
     def create_color_by_name(self, name: str) -> Color:
         """Create a Color object by CSS3 name."""
         name = name.lower()
-        hex_code = self.colors_by_name.get(name)
+        hex_code = self.name_to_hex_map.get(name)
         if hex_code is None:
             raise ValueError(f"Invalid input for name: {name}")
         rgb_values = convert_hex_to_rgb(hex_code)
@@ -88,7 +88,7 @@ class ColorFactory:
         # TODO ensure hex_code format is consistent. Do we want with or without #?
         if hex_code[0] != "#":
             hex_code = f"#{hex_code}"
-        name = self.colors_by_hex.get(hex_code)
+        name = self.hex_to_name_map.get(hex_code)
         rgb_values = convert_hex_to_rgb(hex_code)
         return Color(
             name,
@@ -101,7 +101,7 @@ class ColorFactory:
         if not is_rgb_value_valid(rgb_values):
             raise ValueError(f"Invalid input for rgb_values: {rgb_values}")
         hex_code = convert_rgb_to_hex(rgb_values)
-        name = self.colors_by_hex.get(hex_code)
+        name = self.hex_to_name_map.get(hex_code)
         return Color(
             name,
             hex_code,

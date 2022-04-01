@@ -14,12 +14,12 @@ class ColorPicker(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
         self.color_factory = None
-        self.colors_by_name = dict()
+        self.color_name_to_hex_map = dict()
         self.colors_by_hex = dict()
 
     def initialize(self):
-        self.colors_by_name = self.translate_namedvalues("color-names")
-        self.color_factory = ColorFactory(self.colors_by_name)
+        self.color_name_to_hex_map = self.translate_namedvalues("color-names")
+        self.color_factory = ColorFactory(self.color_name_to_hex_map)
 
     @intent_handler("request-color.intent")
     def handle_request_color(self, message):
@@ -29,7 +29,7 @@ class ColorPicker(MycroftSkill):
         """
         requested_color = message.data.get("requested_color")
 
-        is_color_name = self.colors_by_name.get(requested_color) is not None
+        is_color_name = self.color_name_to_hex_map.get(requested_color) is not None
         if is_color_name:
             mock_message = Message("", {"color": requested_color})
             self.handle_request_color_by_name(mock_message)
