@@ -13,5 +13,5 @@ def given_active_color_is(context, pre_color):
 
 @then("the active color changes to {post_color}")
 def given_active_color_is(context, post_color):
-    assert(context.active_color, post_color)
+    assert(context.active_color == post_color)
     
