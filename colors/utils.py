@@ -1,3 +1,9 @@
+from collections import namedtuple
+from typing import Any, List
+
+from rapidfuzz import fuzz
+
+
 def convert_hex_to_rgb(hex: str) -> tuple((int, int, int)):
     """Convert a hex color code to RGB values."""
     hex_cleaned = hex.lstrip("#")
@@ -89,3 +95,25 @@ def is_rgb_value_valid(rgb_values) -> bool:
         return False
 
     return True
+
+def fuzzy_get_from_dict(obj: dict, search_key: str, min_confidence: float = 0.7) -> list([str, Any]):
+    """Fuzzy match dictionary key.
+    
+    Args:
+        obj: dictionary object to search
+        search_key: key to fuzzy match
+        min_confidence: minimum accepted confidence level for match
+    
+    Returns:
+        Found key, found value OR None, None
+    """
+    Match = namedtuple("Match", ["key", "confidence"])
+    best_match = Match(None, 0.0)
+    for key in obj.keys():
+        confidence = fuzz.ratio(search_key, key) / 100
+        if confidence > best_match.confidence:
+            best_match = Match(key, confidence)
+    if best_match.confidence > min_confidence:
+        return best_match.key, obj[best_match.key]
+    else:
+        return None, None

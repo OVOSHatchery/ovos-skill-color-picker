@@ -13,7 +13,6 @@ Feature: Get information about a color
       | what does the color light goldenrod yellow look like | light goldenrod yellow | F. A. F. A. D. 2 | 250 | 250 | 210 |
       | show me the color deep skyblue | deep skyblue | 0. 0. B. F. F. F | 0 | 191 | 255 |
 
-  @xfail
   Scenario Outline: Ask to see specific color by name that doesn't perfectly match
     Given an english speaking user
      When the user says "<request a color>"
@@ -23,7 +22,7 @@ Feature: Get information about a color
       | request a color | color name | hex-value | red-value | green-value | blue-value |
       | show me the color dark salmons | dark salmon | E. 9. 9. 6. 7. A | 233 | 150 | 122 |
       | what does the color light golden rod yellow look like | light goldenrod yellow | F. A. F. A. D. 2 | 250 | 250 | 210 |
-      | show me the color deep sky blue | deep skyblue | 0. 0. B. F. F. F. | 0 | 191 | 255 |
+      | show me the color deep sky blue | deep skyblue | 0. 0. B. F. F. F | 0 | 191 | 255 |
       | show me the color sea shell | seashell | F. F. F. 5. E. E | 255 | 245 | 238 |
 
   @xfail

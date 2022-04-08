@@ -4,9 +4,11 @@ from collections import namedtuple
 from dataclasses import dataclass, field
 from typing import List, Union
 
+
 from .utils import (
     convert_hex_to_rgb,
     convert_rgb_to_hex,
+    fuzzy_get_from_dict,
     get_contrasting_black_or_white,
     is_hex_code_valid,
     is_rgb_value_valid,
@@ -72,6 +74,8 @@ class ColorFactory:
         """Create a Color object by CSS3 name."""
         name = name.lower()
         hex_code = self.name_to_hex_map.get(name)
+        if hex_code is None:
+            name, hex_code = fuzzy_get_from_dict(self.name_to_hex_map, name)
         if hex_code is None:
             raise ValueError(f"Invalid input for name: {name}")
         rgb_values = convert_hex_to_rgb(hex_code)
