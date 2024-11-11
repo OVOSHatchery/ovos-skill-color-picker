@@ -1,5 +1,5 @@
 from ovos_bus_client.message import Message
-from ovos_color_parser import sRGBAColor, color_from_description, lookup_name
+from ovos_color_parser import is_hex_code_valid, sRGBAColor, color_from_description, lookup_name, get_contrasting_black_or_white
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills.ovos import OVOSSkill
 
@@ -13,14 +13,11 @@ class ColorPicker(OVOSSkill):
         Example: 'What color is _________'
         """
         requested_color = message.data.get("requested_color")
-
-        try:
+        if is_hex_code_valid(requested_color.replace(" ", "")):
             color = sRGBAColor.from_hex_str(requested_color.replace(" ", ""))
             message = message.forward("", {"hex_code": requested_color})
             self.handle_request_color_by_hex(message)
             return
-        except:  # not a hex  code
-            pass
 
         try:
             r, g, b = requested_color.split()
@@ -63,6 +60,10 @@ class ColorPicker(OVOSSkill):
         """
         requested_hex_code = message.data.get("hex_code").replace(" ", "")
         self.log.info("Requested color: %s", requested_hex_code)
+        if not is_hex_code_valid(requested_hex_code):
+            self.speak_dialog("color-not-found")
+            return
+
         color = sRGBAColor.from_hex_str(requested_hex_code)
         try:
             color.name = lookup_name(color, lang=self.lang.split("-")[0])
@@ -97,8 +98,12 @@ class ColorPicker(OVOSSkill):
 
         Example: what color has the RGB value of 172 172 172
         """
-        r, g, b = message.data["rgb"].split()
-        color = sRGBAColor(r, g, b)
+        try:
+            r, g, b = message.data["rgb"].split()
+            color = sRGBAColor(r, g, b)
+        except ValueError:
+            self.speak_dialog("color-not-found")
+            return
 
         try:
             color.name = lookup_name(color, lang=self.lang.split("-")[0])
@@ -128,5 +133,5 @@ class ColorPicker(OVOSSkill):
         self.gui["colorName"] = color.name.title()
         self.gui["colorHex"] = color.hex_str.upper()
         self.gui["colorRGB"] = f"RGB: {color.r}, {color.g}, {color.b}"
-        self.gui["textColor"] = color.description
+        self.gui["textColor"] = get_contrasting_black_or_white(color).hex_str.upper()
         self.gui.show_page("single-color.qml")
