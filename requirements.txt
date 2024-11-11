@@ -1,1 +1,1 @@
-rapidfuzz~=2.0.5
+ovos-workshop
