@@ -4,10 +4,10 @@
     "como é a cor {cor}"
   ],
   "/intents/request-color-by-rgb.intent": [
-    null
+    "qual cor tem um valor RGB de {rgb}"
   ],
   "/intents/request-color.intent": [
-    null
+    "qual é a cor {requested_color}"
   ],
   "/intents/request-color-by-hex.intent": [
     "(qual|que) cor tem um código hexadecimal de {hex_code}"
