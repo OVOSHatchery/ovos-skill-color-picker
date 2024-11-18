@@ -1,10 +1,12 @@
 from ovos_bus_client.message import Message
-from ovos_color_parser import is_hex_code_valid, sRGBAColor, color_from_description, lookup_name, get_contrasting_black_or_white
+
+from ovos_color_parser import sRGBAColor, color_from_description, get_contrasting_black_or_white
+from ovos_color_parser.matching import is_hex_code_valid, lookup_name
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills.ovos import OVOSSkill
 
 
-class ColorPicker(OVOSSkill):
+class ColorPickerSkill(OVOSSkill):
 
     @intent_handler("request-color.intent")
     def handle_request_color(self, message: Message):
@@ -14,8 +16,7 @@ class ColorPicker(OVOSSkill):
         """
         requested_color = message.data.get("requested_color")
         if is_hex_code_valid(requested_color.replace(" ", "")):
-            color = sRGBAColor.from_hex_str(requested_color.replace(" ", ""))
-            message = message.forward("", {"hex_code": requested_color})
+            message = message.forward("", {"hex_code": requested_color.replace(" ", "")})
             self.handle_request_color_by_hex(message)
             return
 
