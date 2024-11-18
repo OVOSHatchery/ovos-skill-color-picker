@@ -39,7 +39,9 @@ class ColorPickerSkill(OVOSSkill):
         """
         requested_color = message.data.get("color")
         self.log.info("Requested color: %s", requested_color)
-        color = color_from_description(requested_color, lang=self.lang.split("-")[0])
+        color = color_from_description(requested_color, lang=self.lang.split("-")[0],
+                                       cast_to_palette=self.settings.get("cast_to_palette", True),
+                                       fuzzy=self.settings.get("fuzzy", True))
 
         self.speak_dialog(
             "report-color-by-name",
