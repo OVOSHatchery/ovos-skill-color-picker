@@ -134,5 +134,6 @@ class ColorPickerSkill(OVOSSkill):
         self.gui["colorName"] = color.name.title()
         self.gui["colorHex"] = color.hex_str.upper()
         self.gui["colorRGB"] = f"RGB: {color.r}, {color.g}, {color.b}"
-        self.gui["textColor"] = get_contrasting_black_or_white(color).hex_str.upper()
-        self.gui.show_page("single-color.qml")
+        self.gui["textColor"] = get_contrasting_black_or_white(color.hex_str.upper())
+        self.gui.show_page("single-color")
+
