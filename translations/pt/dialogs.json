@@ -12,7 +12,7 @@
     "Os valores R. G. B. para esta cor são: Vermelho {red_value}, Verde {green_value}, Azul {blue_value}"
   ],
   "/dialog/report-color-by-hex-name-known.dialog": [
-    null
+    "É {color_name}. Os valores R. G. B. são, Vermelho {red_value}, Verde {green_value}, Azul {blue_value}"
   ],
   "/dialog/report-color-by-name.dialog": [
     "{color_name} tem um valor hexadecimal de {hex_code}. Em R. G. B. isto é Vermelho {red_value}, Verde {green_value}, Azul {blue_value}"
