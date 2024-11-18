@@ -1,0 +1,15 @@
+{
+  "/intents/request-color-by-name.intent": [
+    "Mostre-me a cor {cor}",
+    "como é a cor {cor}"
+  ],
+  "/intents/request-color-by-rgb.intent": [
+    null
+  ],
+  "/intents/request-color.intent": [
+    null
+  ],
+  "/intents/request-color-by-hex.intent": [
+    "(qual|que) cor tem um código hexadecimal de {hex_code}"
+  ]
+}
