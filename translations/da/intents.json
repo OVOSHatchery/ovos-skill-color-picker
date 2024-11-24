@@ -4,12 +4,12 @@
     "hvordan ser (farve|farve) {color} ud"
   ],
   "/intents/request-color-by-rgb.intent": [
-    null
+    "hvilken farve har en RGB-værdi på {rgb}"
   ],
   "/intents/request-color.intent": [
-    null
+    "hvilken farve er {requested_color}"
   ],
   "/intents/request-color-by-hex.intent": [
-    null
+    "hvad (farve|farve) har en hex-kode på {hex_code}"
   ]
 }
