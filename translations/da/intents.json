@@ -1,0 +1,15 @@
+{
+  "/intents/request-color-by-name.intent": [
+    "Vis mig (farve|farve) {color}",
+    "hvordan ser (farve|farve) {color} ud"
+  ],
+  "/intents/request-color-by-rgb.intent": [
+    null
+  ],
+  "/intents/request-color.intent": [
+    null
+  ],
+  "/intents/request-color-by-hex.intent": [
+    null
+  ]
+}
