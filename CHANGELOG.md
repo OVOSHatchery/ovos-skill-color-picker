@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.0.6a5](https://github.com/OpenVoiceOS/ovos-skill-color-picker/tree/0.0.6a5) (2025-01-25)
+## [0.0.6a6](https://github.com/OpenVoiceOS/ovos-skill-color-picker/tree/0.0.6a6) (2025-02-27)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-color-picker/compare/0.0.6a5...0.0.6a5)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-color-picker/compare/0.0.6a5...0.0.6a6)
 
 **Merged pull requests:**
 
