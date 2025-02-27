@@ -1,0 +1,15 @@
+{
+  "/intents/request-color-by-name.intent": [
+    "Mostra(mi|) il colore {color}",
+    "(Fai|Fammi) vedere il colore {color}"
+  ],
+  "/intents/request-color-by-rgb.intent": [
+    "A che colore corrisponde il valore R G B {rgb}"
+  ],
+  "/intents/request-color.intent": [
+    "Che colore è {requested_color}"
+  ],
+  "/intents/request-color-by-hex.intent": [
+    "A che colore corrisponde il valore esadecimale {hex_code}"
+  ]
+}
